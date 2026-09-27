@@ -133,6 +133,43 @@ Automated tests are not yet included. Recommended smoke checks:
 2. Upload a small video + thumbnail via the admin dashboard (requires valid S3 credentials).
 3. Confirm playback from the browse page and verify that chat messages broadcast between multiple browser tabs.
 
+## AWS Deployment
+
+StreamingApp has been containerized and deployed on Amazon EKS in `ap-south-1`.
+
+### Architecture
+
+![AWS Deployment Architecture](docs/aws-architecture.png)
+
+The deployment includes:
+
+- GitHub -> Jenkins -> Amazon ECR -> Amazon EKS CI/CD flow.
+- Five containerized application services: Auth, Streaming, Admin, Chat, and Frontend.
+- Frontend exposed through an AWS LoadBalancer.
+- Backend services and MongoDB exposed internally through Kubernetes ClusterIP Services.
+- MongoDB with a 5 GiB EBS-backed PersistentVolumeClaim.
+- Amazon CloudWatch Container Insights for monitoring and logging.
+- Helm for Kubernetes deployment and configuration.
+
+### Deployment Documentation
+
+See the complete deployment guide:
+
+[docs/deployment.md](docs/deployment.md)
+
+### Validated Deployment
+
+- EKS cluster: `streamingapp-eks`
+- Worker nodes: 2 x `t3.medium`
+- Auth: 2 replicas
+- Streaming: 3 replicas
+- Admin: 2 replicas
+- Chat: 2 replicas
+- Frontend: 2 replicas
+- MongoDB: 1 replica
+- MongoDB storage: 5 GiB `gp2`
+- CloudWatch Observability: Active
+
 ## License
 
 MIT © StreamFlix Team
