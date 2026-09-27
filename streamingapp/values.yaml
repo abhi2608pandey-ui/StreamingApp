@@ -1,0 +1,35 @@
+global:
+  imageTag: "8dd672e"
+  ecrRegistry: "845041271182.dkr.ecr.ap-south-1.amazonaws.com"
+
+services:
+  auth:
+    image: streamingapp-auth
+    port: 3001
+    replicas: 2
+
+  streaming:
+    image: streamingapp-streaming
+    port: 3002
+    replicas: 2
+
+  admin:
+    image: streamingapp-admin
+    port: 3003
+    replicas: 2
+
+  chat:
+    image: streamingapp-chat
+    port: 3004
+    replicas: 2
+
+  frontend:
+    image: streamingapp-frontend
+    port: 80
+    replicas: 2
+
+mongodb:
+  image: mongo:6
+  port: 27017
+  database: streamingapp
+  storageSize: 5Gi

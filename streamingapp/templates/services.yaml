@@ -1,0 +1,50 @@
+{{- range $name, $config := .Values.services }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $name }}
+spec:
+  replicas: {{ $config.replicas }}
+  selector:
+    matchLabels:
+      app: {{ $name }}
+  template:
+    metadata:
+      labels:
+        app: {{ $name }}
+    spec:
+      containers:
+        - name: {{ $name }}
+          image: "{{ $.Values.global.ecrRegistry }}/{{ $config.image }}:{{ $.Values.global.imageTag }}"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: {{ $config.port }}
+          env:
+            - name: PORT
+              value: "{{ $config.port }}"
+            - name: MONGO_URI
+              value: "mongodb://mongodb:27017/{{ $.Values.mongodb.database }}"
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: streamingapp-secrets
+                  key: JWT_SECRET
+            - name: CLIENT_URLS
+              value: "http://frontend"
+{{- end }}
+
+{{- range $name, $config := .Values.services }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $name }}
+spec:
+  selector:
+    app: {{ $name }}
+  ports:
+    - port: {{ $config.port }}
+      targetPort: {{ $config.port }}
+  type: {{ if eq $name "frontend" }}LoadBalancer{{ else }}ClusterIP{{ end }}
+{{- end }}
