@@ -1,0 +1,67 @@
+﻿VLearn Project Submission
+
+Project Title:
+Orchestration and Scaling - StreamingApp
+
+GitHub Repository:
+https://github.com/abhi2608pandey-ui/StreamingApp
+
+Project Overview:
+StreamingApp is a containerized MERN microservices application deployed using Docker, Jenkins, Amazon ECR, Amazon EKS, and Helm.
+
+Implemented Components:
+
+* GitHub-based source code management
+* Docker containerization of frontend and backend services
+* Amazon ECR image repositories
+* Jenkins CI pipeline
+* Amazon EKS Kubernetes cluster
+* Helm-based Kubernetes deployment
+* MongoDB with persistent EBS-backed storage
+* Kubernetes Secrets for sensitive configuration
+* Kubernetes service discovery and LoadBalancer exposure
+* Horizontal replica scaling validation
+* Amazon CloudWatch monitoring and logging
+* AWS deployment documentation
+* AWS architecture diagram
+
+AWS Configuration:
+Region: ap-south-1
+EKS Cluster: streamingapp-eks
+Worker Nodes: 2 x t3.medium
+
+Application Deployment:
+Auth Service: 2 replicas
+Streaming Service: 3 replicas
+Admin Service: 2 replicas
+Chat Service: 2 replicas
+Frontend: 2 replicas
+MongoDB: 1 replica
+
+Storage:
+MongoDB PersistentVolumeClaim: 5 GiB
+Storage Class: gp2
+Access Mode: ReadWriteOnce
+
+Validation:
+
+* All 12 application pods were Running.
+* All pods had 0 restarts during final validation.
+* MongoDB PVC reached Bound status.
+* Frontend was successfully accessed through the AWS LoadBalancer endpoint.
+* Jenkins CI pipeline completed successfully.
+* Docker images were successfully pushed to Amazon ECR.
+* CloudWatch Observability add-on was Active with no reported health issues.
+* Helm deployment completed successfully.
+
+Documentation:
+Complete AWS deployment documentation is available at:
+docs/deployment.md
+
+Architecture Diagram:
+docs/aws-architecture.png
+
+Final Git Status:
+Working tree clean.
+Branch main is up to date with origin/main.
+
